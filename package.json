@@ -1,12 +1,12 @@
 {
-  "name": "rest-client",
-  "displayName": "REST Client",
+  "name": "rest-client-neo",
+  "displayName": "REST Client NEO",
   "description": "REST Client for Visual Studio Code",
-  "version": "0.26.0",
-  "publisher": "humao",
+  "version": "0.25.5",
+  "publisher": "lang2hong",
   "author": {
-    "name": "Huachao Mao",
-    "email": "huachaomao@gmail.com"
+    "name": "lang2hong",
+    "email": "522306052@qq.com"
   },
   "icon": "images/rest_icon.png",
   "galleryBanner": {
@@ -15,13 +15,13 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Huachao/vscode-restclient/issues",
-    "email": "huachaomao@gmail.com"
+    "url": "https://github.com/lang2hong/rest-client-neo/issues",
+    "email": "522306052@qq.com"
   },
-  "homepage": "https://github.com/Huachao/vscode-restclient/blob/master/README.md",
+  "homepage": "https://github.com/lang2hong/vscode-restclient",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Huachao/vscode-restclient.git"
+    "url": "https://github.com/lang2hong/vscode-restclient.git"
   },
   "engines": {
     "vscode": "^1.81.0"
@@ -133,6 +133,11 @@
       {
         "command": "rest-client.generate-codesnippet",
         "title": "Generate Code Snippet",
+        "category": "Rest Client"
+      },
+      {
+        "command": "rest-client.request-body-format",
+        "title": "Request Body Format",
         "category": "Rest Client"
       },
       {
@@ -277,6 +282,11 @@
           "command": "rest-client.copy-request-as-curl",
           "when": "editorTextFocus && editorLangId == http",
           "group": "rest-client@3"
+        },
+        {
+          "command": "rest-client.request-body-format",
+          "when": "editorTextFocus && editorLangId == http",
+          "group": "rest-client@4"
         }
       ]
     },
@@ -713,6 +723,7 @@
     "@types/node": "^18.0.0",
     "@types/node-fetch": "^2.6.11",
     "@types/vscode": "^1.81.0",
+    "@types/xmldom": "^0.1.34",
     "mocha": "^10.4.0",
     "ts-loader": "^7.0.5",
     "tslint": "^6.1.2",
@@ -721,8 +732,11 @@
     "webpack-cli": "^5.0.1"
   },
   "dependencies": {
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/tracing": "^0.24.0",
     "adal-node": "^0.2.4",
-    "applicationinsights": "^1.0.5",
+    "applicationinsights": "^1.8.10",
+    "applicationinsights-native-metrics": "^0.0.11",
     "aws-amplify": "^5.0.3",
     "aws4": "^1.9.1",
     "code-highlight-linenums": "^0.2.1",
@@ -743,6 +757,7 @@
     "jsonpath-plus": "^0.20.1",
     "mime-types": "^2.1.14",
     "node-fetch": "^2.6.7",
+    "node-gyp-build": "^4.8.2",
     "node-jws": "^0.1.4",
     "open": "^10.1.0",
     "pretty-data": "^0.40.0",

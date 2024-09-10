@@ -4,7 +4,7 @@ import utc from 'dayjs/plugin/utc';
 import * as dotenv from 'dotenv';
 import * as fs from 'fs-extra';
 import * as path from 'path';
-import { Clipboard, commands, env, QuickPickItem, QuickPickOptions, TextDocument, Uri, window } from 'vscode';
+import { Clipboard, QuickPickItem, QuickPickOptions, TextDocument, Uri, commands, env, window } from 'vscode';
 import * as Constants from '../../common/constants';
 import { EnvironmentController } from '../../controllers/environmentController';
 import { HttpRequest } from '../../models/httpRequest';
@@ -58,6 +58,7 @@ export class SystemVariableProvider implements HttpVariableProvider {
         this.registerDateTimeVariable();
         this.registerLocalDateTimeVariable();
         this.registerGuidVariable();
+        this.registerMd5Variable();
         this.registerRandomIntVariable();
         this.registerProcessEnvVariable();
         this.registerDotenvVariable();
@@ -152,6 +153,13 @@ export class SystemVariableProvider implements HttpVariableProvider {
 
     private registerGuidVariable() {
         this.resolveFuncs.set(Constants.GuidVariableName, async () => ({ value: uuidv4() }));
+    }
+
+    private registerMd5Variable() {
+        this.resolveFuncs.set(Constants.Md5VariableName, async name => {
+            console.log(name);
+            return { value: uuidv4() };
+        });
     }
 
     private registerRandomIntVariable() {

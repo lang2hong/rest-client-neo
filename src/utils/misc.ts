@@ -1,4 +1,5 @@
 import * as crypto from 'crypto';
+import { DOMParser } from 'xmldom';
 import { RequestHeaders, RequestHeaderValue, ResponseHeaders, ResponseHeaderValue } from '../models/base';
 
 
@@ -76,3 +77,14 @@ export function isJSONString(text: string): boolean {
         return false;
     }
 }
+
+
+export function isXMLString(xmlString: string): boolean {
+    const parser = new DOMParser();
+    const parsedDocument = parser.parseFromString(xmlString, 'application/xml');
+
+    // 检查解析后的文档是否有解析错误
+    const parseError = parsedDocument.getElementsByTagName('parsererror');
+    return parseError.length === 0;
+}
+

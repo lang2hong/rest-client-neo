@@ -95,6 +95,12 @@ export class HttpElementFactory {
             Constants.GuidVariableDescription,
             new SnippetString(`{{$\${name:${Constants.GuidVariableName.slice(1)}}}}`)));
         originalElements.push(new HttpElement(
+            Constants.Md5VariableName,
+            ElementType.SystemVariable,
+            null,
+            Constants.Md5VariableDescription,
+            new SnippetString(`{{$\${name:${Constants.Md5VariableName.slice(1)}}}}`)));
+        originalElements.push(new HttpElement(
             Constants.TimeStampVariableName,
             ElementType.SystemVariable,
             null,

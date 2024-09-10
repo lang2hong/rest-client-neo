@@ -1,15 +1,16 @@
 import { EOL } from 'os';
 import * as url from 'url';
-import { Clipboard, env, ExtensionContext, QuickInputButtons, window } from 'vscode';
+import { Clipboard, ExtensionContext, QuickInputButtons, Range, env, window } from 'vscode';
 import Logger from '../logger';
 import { IRestClientSettings, RequestSettings, RestClientSettings } from '../models/configurationSettings';
 import { HARCookie, HARHeader, HARHttpRequest, HARPostData } from '../models/harHttpRequest';
 import { HttpRequest } from '../models/httpRequest';
 import { RequestParserFactory } from '../models/requestParserFactory';
 import { trace } from "../utils/decorator";
-import { base64 } from '../utils/misc';
+import { base64, isJSONString, isXMLString } from '../utils/misc';
+import { ResponseFormatUtility } from '../utils/responseFormatUtility';
 import { Selector } from '../utils/selector';
-import { Telemetry } from '../utils/telemetry';
+// import { Telemetry } from '../utils/telemetry';
 import { getCurrentTextDocument } from '../utils/workspaceUtility';
 import { CodeSnippetWebview } from '../views/codeSnippetWebview';
 
@@ -95,7 +96,7 @@ export class CodeSnippetController {
             } else if (quickPick.step === 2) {
                 const { key: ck, title: ct } = selectedItem as any as CodeSnippetClient;
                 const { key: tk, title: tt } = target!;
-                Telemetry.sendEvent('Generate Code Snippet', { 'target': target!.key, 'client': ck });
+                // Telemetry.sendEvent('Generate Code Snippet', { 'target': target!.key, 'client': ck });
                 const result = snippet.convert(tk, ck);
 
                 quickPick.hide();
@@ -143,6 +144,33 @@ export class CodeSnippetController {
         }
         const result = snippet.convert('shell', 'curl', process.platform === 'win32' ? { indent: false } : {});
         await this.clipboard.writeText(result);
+    }
+
+    @trace('Request Body Format')
+    public async requestBodyFormat() {
+        const editor = window.activeTextEditor;
+        const document = getCurrentTextDocument();
+        if (!editor || !document) {
+            return;
+        }
+        
+        
+        const selection = editor.selection;
+        const range = new Range(selection.start, selection.end);
+        const selectedText = editor.document.getText(range);
+
+        let jsonPrettify:string|undefined;
+        if(isJSONString(selectedText)){
+            jsonPrettify = ResponseFormatUtility.formatBody(selectedText, "application/json", false);
+        }else if(isXMLString(selectedText)){
+            jsonPrettify = ResponseFormatUtility.formatBody(selectedText, "application/xml", false);
+        }
+        if(jsonPrettify){
+            editor.edit(function (editBuilder) {
+                editBuilder.delete(range);
+                editBuilder.insert(range.start,jsonPrettify+"\n");
+            });
+        }
     }
 
     private convertToHARHttpRequest(request: HttpRequest): HARHttpRequest {

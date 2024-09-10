@@ -1,5 +1,5 @@
 
-export const ExtensionId: string = 'humao.rest-client';
+export const ExtensionId: string = 'lang2hong.rest-client';
 export const AiKey: string = 'ad746e27-4a36-441c-8b94-5db178f81ae3';
 
 export const NoEnvironmentSelectedName: string = 'c0cfe680-4fcd-4b71-a4ba-8cfaee57680a';
@@ -23,6 +23,9 @@ export const AzureActiveDirectoryVariableName = "$aadToken";
 export const AzureActiveDirectoryDescription = "Prompts to sign in to Azure AD and adds the token to the request";
 export const AzureActiveDirectoryV2TokenVariableName = "$aadV2Token";
 export const AzureActiveDirectoryV2TokenDescription = "Prompts to sign in to Azure AD V2 and adds the token to the request";
+
+export const Md5VariableName = "$md5";
+export const Md5VariableDescription = "Returns the value of md5(text:string)";
 
 export const OidcVariableName = "$oidcAccessToken";
 export const OidcDescription = "Prompts to sign in to an Oidc provider and adds the token to the request";
